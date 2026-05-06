@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO-LEX - Juego Educativo de Gestión de Proyectos</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- Modal de Evento Aleatorio -->
+    <div id="event-modal" class="modal hidden">
+        <div class="modal-content event-modal">
+            <div class="event-header">
+                <span class="event-icon">⚠️</span>
+                <h2 id="event-title"></h2>
+            </div>
+            <p id="event-description"></p>
+            <div id="event-options" class="event-options"></div>
+            <div class="modal-timer">
+                <div class="timer-bar" id="event-timer"></div>
+                <span id="timer-text">60s</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts - Datos -->
+    <script src="js/data/projects.js"></script>
+    <script src="js/data/events.js"></script>
+    <script src="js/data/legal.js"></script>
+    <script src="js/data/environmental.js"></script>
+
+    <!-- Scripts - Core -->
+    <script src="js/state.js"></script>
+    <script src="js/events-engine.js"></script>
+
+    <!-- Scripts - Fases -->
+    <script src="js/phases/phase1.js"></script>
+    <script src="js/phases/phase2.js"></script>
+    <script src="js/phases/phase3.js"></script>
+
+    <!-- Scripts - Utilidades -->
+    <script src="js/report.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Script para exportar a PDF (opcional) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+</html>
