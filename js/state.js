@@ -276,6 +276,39 @@ class GameState {
         document.getElementById('hud-impact').textContent = this.getHUDDisplay('impact');
         document.getElementById('hud-community').textContent = this.getHUDDisplay('community');
         
+        // Mostrar descuentos / impactos acumulados en presupuesto derivados de decisiones
+        try {
+            const discountsEl = document.getElementById('hud-discounts');
+            if (discountsEl) {
+                let totalBudgetDelta = 0;
+
+                // Environmental decisions store `impact` object
+                (this.decisions.environmental || []).forEach(d => {
+                    if (d && d.impact && typeof d.impact.budget === 'number') {
+                        totalBudgetDelta += d.impact.budget;
+                    }
+                });
+
+                // Crisis decisions store `selectedOptionImpact`
+                (this.decisions.crisis || []).forEach(d => {
+                    if (d && d.selectedOptionImpact && typeof d.selectedOptionImpact.budget === 'number') {
+                        totalBudgetDelta += d.selectedOptionImpact.budget;
+                    }
+                });
+
+                // Convertir delta porcentual a valor monetario aproximado
+                const currencyDelta = Math.round((totalBudgetDelta / 100) * this.projectResources.budgetMax);
+                if (currencyDelta === 0) {
+                    discountsEl.textContent = '';
+                } else {
+                    const sign = currencyDelta < 0 ? '-' : '+';
+                    discountsEl.textContent = `Descuento acumulado: ${sign}$${Math.abs(currencyDelta)}K`;
+                }
+            }
+        } catch (e) {
+            console.warn('No se pudo actualizar hud-discounts', e);
+        }
+
         // Alerta si indicador está en crítico
         this.checkCriticalIndicators();
     }

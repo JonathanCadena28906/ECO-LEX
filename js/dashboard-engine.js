@@ -48,6 +48,30 @@ function formatImpactPreview(impacts = {}) {
         .join(' · ');
 }
 
+function formatImpactDetails(impacts = {}) {
+    // Mostrar impactos clave en orden: presupuesto, agua, suelo, comunidad, impacto
+    const keys = ['budget', 'water', 'land', 'community', 'impact'];
+    const parts = [];
+
+    keys.forEach(k => {
+        if (impacts.hasOwnProperty(k)) {
+            const val = impacts[k];
+            const label = IMPACT_LABELS[k] || k;
+            let unit = '';
+            // Intentar usar unidades definidas en gameState
+            try {
+                unit = gameState && gameState.indicatorUnits && gameState.indicatorUnits[k] ? ` ${gameState.indicatorUnits[k]}` : '';
+            } catch (e) {
+                unit = '';
+            }
+            parts.push(`<div class="impact-line"><strong>${label}:</strong> ${val > 0 ? '+' : ''}${val}${unit}</div>`);
+        }
+    });
+
+    if (parts.length === 0) return '<span class="impact-empty">Sin impacto directo</span>';
+    return parts.join('');
+}
+
 // Renderizar tarjeta de decisión interactiva
 function renderDecisionCard(decision, onSelect) {
     const card = document.createElement('div');
@@ -56,8 +80,8 @@ function renderDecisionCard(decision, onSelect) {
     let optionsHTML = '';
     decision.options.forEach((option, idx) => {
         const letter = String.fromCharCode(65 + idx); // A, B, C...
-        const impactText = formatImpactPreview(option.impact);
-        
+        const impactDetails = formatImpactDetails(option.impact || {});
+
         optionsHTML += `
             <div class="option" data-option-id="${option.id}" data-letter="${letter}">
                 <span class="option-letter">${letter}</span>
@@ -65,7 +89,10 @@ function renderDecisionCard(decision, onSelect) {
                     <div class="option-title">${option.title}</div>
                     <div class="option-description">${option.description}</div>
                 </div>
-                <div class="impact-preview"><strong>Variables de impacto:</strong> ${impactText}</div>
+                <div class="impact-preview detailed-impact">
+                    <div style="font-weight:700; margin-bottom:6px;">Consecuencias:</div>
+                    ${impactDetails}
+                </div>
             </div>
         `;
     });
@@ -84,15 +111,36 @@ function renderDecisionCard(decision, onSelect) {
             const selectedOption = decision.options.find(
                 o => o.id === optionElement.dataset.optionId
             );
+
+            // Marcar opción seleccionada visualmente y deshabilitar otras
+            card.querySelectorAll('.option').forEach(opt => {
+                opt.classList.add('disabled');
+                opt.style.pointerEvents = 'none';
+                opt.style.opacity = '0.6';
+            });
+
+            optionElement.classList.remove('disabled');
+            optionElement.classList.add('selected');
+            optionElement.style.pointerEvents = 'auto';
+            optionElement.style.opacity = '1';
+
+            // Añadir badge de selección
+            const badge = document.createElement('div');
+            badge.className = 'option-selected-badge';
+            badge.textContent = '✔ Seleccionada';
+            optionElement.appendChild(badge);
+
             onSelect(decision.id, selectedOption);
-            card.classList.add('slide-out-right');
-            setTimeout(() => card.remove(), 400);
         });
-        
-        // Hover para previsualizar impacto
+
+        // Hover para realce
         optionElement.addEventListener('mouseenter', () => {
             card.style.borderColor = '#00ff00';
-            card.style.boxShadow = '0 0 20px rgba(0, 255, 0, 0.3)';
+            card.style.boxShadow = '0 0 20px rgba(0, 255, 0, 0.08)';
+        });
+        optionElement.addEventListener('mouseleave', () => {
+            card.style.borderColor = '';
+            card.style.boxShadow = '';
         });
     });
     
@@ -469,32 +517,55 @@ function renderPhase2EnvironmentalCards() {
             setTimeout(() => renderPhase3Crisis(), 500);
             return;
         }
-        
+
         const decision = decisions[currentDecisionIndex];
-        
-        app.innerHTML = `
-            <div class="screen" style="padding: 2rem;">
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <h1>🌱 FASE 2: GESTIÓN AMBIENTAL</h1>
-                    <p>Decisión ${currentDecisionIndex + 1} de ${decisions.length}</p>
+
+        // Si es la primera tarjeta, crear layout y feed que persista
+        if (!document.getElementById('env-decision-feed')) {
+            app.innerHTML = `
+                <div class="screen" style="padding: 2rem;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                        <div>
+                            <h1 style="margin:0;">🌱 FASE 2: GESTIÓN AMBIENTAL</h1>
+                            <div id="env-progress" style="font-size:0.95rem; color:#ccc; margin-top:6px;">Decisión 1 de ${decisions.length}</div>
+                        </div>
+                        <div id="env-summary" style="text-align:right; font-size:0.9rem; color:#ddd;"></div>
+                    </div>
+
+                    <div id="env-decision-feed" style="display:flex; flex-direction:column; gap:1rem;"></div>
                 </div>
-                <div id="decision-container"></div>
-            </div>
-        `;
-        
+            `;
+        }
+
         const card = renderDecisionCard(decision, (decisionId, selectedOption) => {
-            // Guardar decisión
+            // Guardar decisión (mantener registro)
             gameState.addEnvironmentalDecision(decisionId, selectedOption);
-            
-            // Actualizar indicadores
-            gameState.updateIndicators(selectedOption.impact);
-            
-            // Siguiente
+
+            // Aplicar impactos y actualizar HUD
+            gameState.updateIndicators(selectedOption.impact || {});
+
+            // Actualizar progreso
             currentDecisionIndex++;
-            showNextDecision();
+            const progressEl = document.getElementById('env-progress');
+            if (progressEl) progressEl.textContent = `Decisión ${Math.min(currentDecisionIndex + 1, decisions.length)} de ${decisions.length}`;
+
+            // Mostrar resumen rápido en la cabecera
+            const summaryEl = document.getElementById('env-summary');
+            if (summaryEl) {
+                const totals = { budget:0, water:0, land:0, community:0, impact:0 };
+                (gameState.decisions.environmental || []).forEach(d => {
+                    if (d.impact) {
+                        Object.keys(totals).forEach(k => { if (typeof d.impact[k] === 'number') totals[k] += d.impact[k]; });
+                    }
+                });
+                summaryEl.innerHTML = `Impacto acumulado — Pres: ${totals.budget || 0}, Agua: ${totals.water || 0}, Suelo: ${totals.land || 0}`;
+            }
+
+            // Siguiente tarjeta o finalizar si corresponde
+            setTimeout(() => showNextDecision(), 120);
         });
-        
-        document.getElementById('decision-container').appendChild(card);
+
+        document.getElementById('env-decision-feed').appendChild(card);
     }
     
     showNextDecision();

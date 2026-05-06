@@ -843,6 +843,24 @@ input[type="radio"] {
     font-weight: 600;
 }
 
+.detailed-impact .impact-line {
+    font-size: 0.92rem;
+    color: var(--color-text);
+    margin-bottom: 4px;
+}
+
+.option-selected-badge {
+    position: absolute;
+    right: 10px;
+    bottom: 8px;
+    background: var(--color-success);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
 .impact-tag {
     display: inline-block;
     padding: 4px 10px;
