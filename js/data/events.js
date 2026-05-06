@@ -88,13 +88,13 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Iniciar consulta previa',
                 description: 'Demuestra buena fe pero consume tiempo',
-                consequence: { score: 20, time: 180, resources: { community: 30 } }
+                consequence: { score: 20, time: 180, resources: { community: 15 } }
             },
             {
                 id: 'opt_2',
                 title: 'Ofrecer compensación inicial',
                 description: 'Ayuda pero no resuelve completamente',
-                consequence: { score: 5, time: 120, resources: { budget: -30_000_000, community: 20 } }
+                consequence: { score: 5, time: 120, resources: { budget: -30_000_000, community: 10 } }
             },
             {
                 id: 'opt_3',
@@ -117,7 +117,7 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Presentar plan de compensación',
                 description: 'Inversión en comunidad local',
-                consequence: { score: 15, time: 90, resources: { budget: -50_000_000, community: 40 } }
+                consequence: { score: 15, time: 90, resources: { budget: -50_000_000, community: 20 } }
             },
             {
                 id: 'opt_2',
@@ -164,7 +164,7 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Encargar estudio ambiental',
                 description: 'Cumplimiento riguroso',
-                consequence: { score: 20, time: 120, resources: { budget: -60_000_000, water: -8 } }
+                consequence: { score: 20, time: 120, resources: { budget: -60_000_000, water: -4 } }
             },
             {
                 id: 'opt_2',
@@ -187,13 +187,13 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Reducir consumo de agua',
                 description: 'Afecta el alcance del proyecto',
-                consequence: { score: 0, time: 0, resources: { water: -20 } }
+                consequence: { score: 0, time: 0, resources: { water: -10 } }
             },
             {
                 id: 'opt_2',
                 title: 'Implementar sistema de reciclaje',
                 description: 'Inversión adicional',
-                consequence: { score: 15, time: 90, resources: { water: -10, budget: -30_000_000 } }
+                consequence: { score: 15, time: 90, resources: { water: -5, budget: -30_000_000 } }
             }
         ],
         severity: 'medium',
@@ -210,13 +210,13 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Crear corredor ecológico',
                 description: 'Solución integrada',
-                consequence: { score: 25, time: 150, resources: { budget: -50_000_000, land: -15 } }
+                consequence: { score: 25, time: 150, resources: { budget: -50_000_000, land: -8 } }
             },
             {
                 id: 'opt_2',
                 title: 'Modificar límites del proyecto',
                 description: 'Reduce impacto pero cambios mayores',
-                consequence: { score: 10, time: 60, resources: { land: -20 } }
+                consequence: { score: 10, time: 60, resources: { land: -10 } }
             }
         ],
         severity: 'high',
@@ -281,7 +281,7 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Reconstruir y mejorar',
                 description: 'Mayor inversión pero mejor sostenibilidad',
-                consequence: { score: 15, time: 180, resources: { budget: -120_000_000, land: -10 } }
+                consequence: { score: 15, time: 180, resources: { budget: -120_000_000, land: -5 } }
             },
             {
                 id: 'opt_2',
@@ -345,19 +345,19 @@ const EVENT_LIBRARY = {
                     id: 'opt_containment',
                     title: 'Contención inmediata y compensación',
                     description: 'Movilizar equipo de emergencia y ofrecer ayuda directa',
-                    impact: { community: -30, water: -20, budget: -40_000_000 }
+                    impact: { community: -15, water: -10, budget: -40_000_000 }
                 },
                 {
                     id: 'opt_denial',
                     title: 'Argumentar causa externa',
                     description: 'Culpar a factores naturales o de terceros',
-                    impact: { community: -60, impact: 20, budget: -10_000_000 }
+                    impact: { community: -30, impact: 10, budget: -10_000_000 }
                 },
                 {
                     id: 'opt_transparency',
                     title: 'Transparencia total y remedación',
                     description: 'Aceptar responsabilidad, lanzar plan de descontaminación',
-                    impact: { community: 15, water: -30, budget: -90_000_000, impact: -15 }
+                    impact: { community: 8, water: -15, budget: -90_000_000, impact: -8 }
                 }
             ]
         },
@@ -370,13 +370,13 @@ const EVENT_LIBRARY = {
                     id: 'opt_collaboration',
                     title: 'Colaborar con autoridades',
                     description: 'Trabajar con Fiscalía para investigación',
-                    impact: { community: 20, land: 10, budget: -30_000_000 }
+                    impact: { community: 10, land: 5, budget: -30_000_000 }
                 },
                 {
                     id: 'opt_distance',
                     title: 'Tomar distancia del incidente',
                     description: 'Alegación de independencia del proyecto',
-                    impact: { community: -40, impact: 15 }
+                    impact: { community: -20, impact: 8 }
                 }
             ]
         },
@@ -389,13 +389,13 @@ const EVENT_LIBRARY = {
                     id: 'opt_negotiation',
                     title: 'Mesa de negociación extendida',
                     description: 'Diálogo profundo y rediseño del plan',
-                    impact: { community: 30, budget: -110_000_000, impact: -10 }
+                    impact: { community: 15, budget: -110_000_000, impact: -5 }
                 },
                 {
                     id: 'opt_force',
                     title: 'Proceder con fuerza legal',
                     description: 'Ejecutar órdenes judiciales',
-                    impact: { community: -80, impact: 40, budget: -30_000_000 }
+                    impact: { community: -40, impact: 20, budget: -30_000_000 }
                 }
             ]
         },
@@ -408,13 +408,13 @@ const EVENT_LIBRARY = {
                     id: 'opt_shutdown',
                     title: 'Pausa operaciones y remediación',
                     description: 'Cerrar temporalmente, limpiar acuífero',
-                    impact: { water: 20, budget: -180_000_000, community: -20 }
+                    impact: { water: 10, budget: -180_000_000, community: -10 }
                 },
                 {
                     id: 'opt_minimize',
                     title: 'Minimizar alcance del incidente',
                     description: 'Argumentar que el daño es mínimo',
-                    impact: { community: -50, water: -20, impact: 25 }
+                    impact: { community: -25, water: -10, impact: 12 }
                 }
             ]
         },
@@ -427,13 +427,13 @@ const EVENT_LIBRARY = {
                     id: 'opt_cooperate',
                     title: 'Cooperación total con investigación',
                     description: 'Suspender pesticidas prohibidos, cambiar a legales',
-                    impact: { community: 10, water: 12, budget: -100_000_000 }
+                    impact: { community: 5, water: 6, budget: -100_000_000 }
                 },
                 {
                     id: 'opt_coverup',
                     title: 'Encubrimiento parcial',
                     description: 'Negar conocimiento de prohibición',
-                    impact: { community: -60, impact: 20, budget: -60_000_000 }
+                    impact: { community: -30, impact: 10, budget: -60_000_000 }
                 }
             ]
         }
