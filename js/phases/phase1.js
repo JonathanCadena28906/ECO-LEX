@@ -1,5 +1,8 @@
-// FASE 1 - GESTIÓN LEGAL
-function renderPhase1Screen() {
+// FASE 1 - GESTIÓN LEGAL - DEPRECATED
+// Esta función ha sido reemplazada por renderPhase1DragDrop() en dashboard-engine.js
+// Se mantiene aquí comentada para referencia histórica
+/*
+function renderPhase1Screen_DEPRECATED() {
     const app = document.getElementById('app');
 
     gameState.currentPhase = 'legal';
@@ -276,3 +279,6 @@ function goToPreviousScreen() {
     eventsEngine.stop();
     renderProjectAssignmentScreen();
 }
+
+*/
+// Fin del código deprecated

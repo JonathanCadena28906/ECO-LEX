@@ -329,3 +329,113 @@ function getRandomEvent(phase) {
     if (phaseEvents.length === 0) return null;
     return phaseEvents[Math.floor(Math.random() * phaseEvents.length)];
 }
+
+// ============================================
+// BIBLIOTECA DE CRISIS - Para Dashboard
+// ============================================
+
+const EVENT_LIBRARY = {
+    crises: [
+        {
+            id: 'crisis_litio_spill',
+            title: 'Derrame de Químicos en Mina',
+            description: 'Un incidente operativo causó el derrame de 5,000 litros de solución química hacia el río. La comunidad está en alerta máxima.',
+            options: [
+                {
+                    id: 'opt_containment',
+                    title: 'Contención inmediata y compensación',
+                    description: 'Movilizar equipo de emergencia y ofrecer ayuda directa',
+                    impact: { community: -30, water: -25, budget: -150 }
+                },
+                {
+                    id: 'opt_denial',
+                    title: 'Argumentar causa externa',
+                    description: 'Culpar a factores naturales o de terceros',
+                    impact: { community: -60, impact: 20, budget: -50 }
+                },
+                {
+                    id: 'opt_transparency',
+                    title: 'Transparencia total y remedación',
+                    description: 'Aceptar responsabilidad, lanzar plan de descontaminación',
+                    impact: { community: 15, water: -40, budget: -300, impact: -15 }
+                }
+            ]
+        },
+        {
+            id: 'crisis_amazon_deforestation',
+            title: 'Tala Ilegal Detectada en Límites',
+            description: 'Se detectó tala ilegal en el perímetro de amortiguación del proyecto. Parece conectada con actores externos, pero su proyecto está bajo sospecha.',
+            options: [
+                {
+                    id: 'opt_collaboration',
+                    title: 'Colaborar con autoridades',
+                    description: 'Trabajar con Fiscalía para investigación',
+                    impact: { community: 20, land: 10, budget: -100 }
+                },
+                {
+                    id: 'opt_distance',
+                    title: 'Tomar distancia del incidente',
+                    description: 'Alegación de independencia del proyecto',
+                    impact: { community: -40, impact: 15 }
+                }
+            ]
+        },
+        {
+            id: 'crisis_hydro_displacement',
+            title: 'Resistencia Violenta al Reasentamiento',
+            description: 'Familias se niegan al reasentamiento. Hay enfrentamientos en la zona. Los medios cubren protestas diarias.',
+            options: [
+                {
+                    id: 'opt_negotiation',
+                    title: 'Mesa de negociación extendida',
+                    description: 'Diálogo profundo y rediseño del plan',
+                    impact: { community: 30, budget: -250, impact: -10 }
+                },
+                {
+                    id: 'opt_force',
+                    title: 'Proceder con fuerza legal',
+                    description: 'Ejecutar órdenes judiciales',
+                    impact: { community: -80, impact: 40, budget: -100 }
+                }
+            ]
+        },
+        {
+            id: 'crisis_sky_city_pollution',
+            title: 'Contaminación del Acuífero en Pruebas',
+            description: 'Las pruebas piloto del hotel contaminaron el acuífero subterráneo con residuos. Esto afecta a 3 pueblos cercanos.',
+            options: [
+                {
+                    id: 'opt_shutdown',
+                    title: 'Pausa operaciones y remediación',
+                    description: 'Cerrar temporalmente, limpiar acuífero',
+                    impact: { water: 30, budget: -400, community: -20 }
+                },
+                {
+                    id: 'opt_minimize',
+                    title: 'Minimizar alcance del incidente',
+                    description: 'Argumentar que el daño es mínimo',
+                    impact: { community: -50, water: -30, impact: 25 }
+                }
+            ]
+        },
+        {
+            id: 'crisis_agro_pesticide_leak',
+            title: 'Fuga de Pesticidas Prohibidos',
+            description: 'Se descubrió que usó pesticidas prohibidos en Colombia (adquiridos ilegalmente). Reguladores están investigando.',
+            options: [
+                {
+                    id: 'opt_cooperate',
+                    title: 'Cooperación total con investigación',
+                    description: 'Suspender pesticidas prohibidos, cambiar a legales',
+                    impact: { community: 10, water: 15, budget: -200 }
+                },
+                {
+                    id: 'opt_coverup',
+                    title: 'Encubrimiento parcial',
+                    description: 'Negar conocimiento de prohibición',
+                    impact: { community: -60, legal: -50, budget: -100 }
+                }
+            ]
+        }
+    ]
+};

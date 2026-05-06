@@ -236,3 +236,33 @@ function validateRequirements(selectedRequirements, project) {
 function getApplicableRegulations(project) {
     return LEGAL_REQUIREMENTS.regulations.filter(reg => reg.isApplicable(project));
 }
+
+// ============================================
+// ESTRUCTURA LEGAL_DATA - Para Dashboard
+// ============================================
+
+const LEGAL_DATA = {
+    // Documentos disponibles para drag & drop
+    documents: [
+        { id: 'env_license', name: 'Licencia Ambiental', icon: '📜', category: 'essential', usage: 'Requisito fundamental para todo tipo de proyecto' },
+        { id: 'eia', name: 'Estudio de Impacto Ambiental', icon: '📊', category: 'essential', usage: 'Análisis requerido en proyectos con impacto ambiental' },
+        { id: 'water_permit', name: 'Permiso de Agua', icon: '💧', category: 'conditional', usage: 'Se requiere en proyectos con alto consumo hídrico (minería, hidroeléctrica, agroindustria)' },
+        { id: 'indigenous_consultation', name: 'Consulta Previa', icon: '🤝', category: 'conditional', usage: 'Obligatoria en territorios ancestrales indígenas o de comunidades' },
+        { id: 'mining_permit', name: 'Permiso de Minería', icon: '⛏️', category: 'conditional', usage: 'Autorización necesaria para proyectos extractivos de minerales' },
+        { id: 'forest_permit', name: 'Permiso Forestal', icon: '🌲', category: 'conditional', usage: 'Se requiere en proyectos donde se vean involucrados bosques' },
+        { id: 'waste_plan', name: 'Plan de Residuos', icon: '♻️', category: 'conditional', usage: 'Necesario en proyectos que generan residuos significativos' },
+        { id: 'social_plan', name: 'Plan Social', icon: '👥', category: 'conditional', usage: 'Requerido cuando hay comunidades afectadas por el proyecto' },
+        { id: 'budget_approval', name: 'Aprobación de Presupuesto', icon: '💰', category: 'trap', usage: 'Trámite administrativo del proyecto' },
+        { id: 'import_license', name: 'Licencia de Importación', icon: '📦', category: 'trap', usage: 'Solo aplica si el proyecto importa equipos (no siempre requerido)' },
+        { id: 'public_contract_law', name: 'Ley Contratación Pública', icon: '⚖️', category: 'trap', usage: 'Solo aplica si hay financiamiento estatal o licitación pública' }
+    ],
+
+    // Requisitos por proyecto
+    requirements: {
+        litio: ['env_license', 'eia', 'water_permit', 'indigenous_consultation', 'mining_permit'],
+        amazon: ['env_license', 'eia', 'forest_permit', 'social_plan'],
+        hydro: ['env_license', 'eia', 'water_permit', 'social_plan'],
+        skyCity: ['env_license', 'eia', 'waste_plan'],
+        agroChemical: ['env_license', 'eia', 'water_permit', 'waste_plan']
+    }
+};

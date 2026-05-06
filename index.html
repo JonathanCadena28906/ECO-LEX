@@ -4,11 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECO-LEX - Juego Educativo de Gestión de Proyectos</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/report.css">
 </head>
 <body>
+    <!-- HUD SUPERIOR - Tablero de Control -->
+    <div id="hud-top" class="hidden">
+        <div class="hud-project-meta">
+            <div class="hud-project-name" id="hud-project-name">Proyecto no asignado</div>
+            <div class="hud-project-context" id="hud-project-context">Asigne un proyecto para visualizar indicadores</div>
+        </div>
+        <div class="hud-group">
+            <div class="hud-indicator water">
+                <span class="hud-indicator-label" id="hud-label-water">💧 AGUA</span>
+                <span class="hud-indicator-value" id="hud-water">100</span>
+            </div>
+            <div class="hud-indicator land">
+                <span class="hud-indicator-label" id="hud-label-land">🌍 SUELO</span>
+                <span class="hud-indicator-value" id="hud-land">100</span>
+            </div>
+            <div class="hud-indicator budget">
+                <span class="hud-indicator-label" id="hud-label-budget">💰 PRESUPUESTO</span>
+                <span class="hud-indicator-value" id="hud-budget">$1M</span>
+            </div>
+            <div class="hud-indicator impact">
+                <span class="hud-indicator-label" id="hud-label-impact">🌿 IMPACTO</span>
+                <span class="hud-indicator-value" id="hud-impact">0</span>
+            </div>
+            <div class="hud-indicator community">
+                <span class="hud-indicator-label" id="hud-label-community">🤝 COMUNIDAD</span>
+                <span class="hud-indicator-value" id="hud-community">50%</span>
+            </div>
+        </div>
+        <div class="hud-timer" id="hud-timer">
+            ⏱️ 60 DÍAS
+        </div>
+    </div>
+
     <div id="app"></div>
 
     <!-- Modal de Evento Aleatorio -->
@@ -27,6 +60,12 @@
         </div>
     </div>
 
+    <!-- Script de Boot - DEBE SER PRIMERO -->
+    <script>
+        console.log('🚀 Inicializando ECO-LEX...');
+        window.DEBUG = true;
+    </script>
+
     <!-- Scripts - Datos -->
     <script src="js/data/projects.js"></script>
     <script src="js/data/events.js"></script>
@@ -37,6 +76,9 @@
     <script src="js/state.js"></script>
     <script src="js/events-engine.js"></script>
 
+    <!-- Scripts - Dashboard Engine (NEW) -->
+    <script src="js/dashboard-engine.js"></script>
+
     <!-- Scripts - Fases -->
     <script src="js/phases/phase1.js"></script>
     <script src="js/phases/phase2.js"></script>
@@ -44,9 +86,34 @@
 
     <!-- Scripts - Utilidades -->
     <script src="js/report.js"></script>
+    
+    <!-- Script Principal - DEBE SER ÚLTIMO -->
     <script src="js/main.js"></script>
 
     <!-- Script para exportar a PDF (opcional) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- Script de Diagnóstico -->
+    <script>
+        window.addEventListener('load', () => {
+            console.log('🎮 ECO-LEX Cargado');
+            console.log('gameState:', typeof gameState);
+            console.log('initializeHUD:', typeof initializeHUD);
+            console.log('renderRegistrationScreen:', typeof renderRegistrationScreen);
+            
+            // Diagnosticar elemento #app
+            const app = document.getElementById('app');
+            console.log('#app elemento:', app);
+            console.log('#app innerHTML length:', app.innerHTML.length);
+            console.log('#app visibility:', window.getComputedStyle(app).visibility);
+            console.log('#app display:', window.getComputedStyle(app).display);
+            console.log('#app background:', window.getComputedStyle(app).backgroundColor);
+        });
+        
+        // Agregar log global de errores
+        window.addEventListener('error', (event) => {
+            console.error('❌ Error global:', event.error);
+        });
+    </script>
 </body>
 </html>

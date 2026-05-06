@@ -1,94 +1,156 @@
 // CONTROLADOR PRINCIPAL Y NAVEGACIÓN
+console.log('✅ main.js cargado');
+console.log('gameState disponible:', typeof gameState !== 'undefined');
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Intentar cargar estado anterior
-    if (!gameState.load()) {
-        renderRegistrationScreen();
-    } else {
-        // Si hay estado guardado, ir a pantalla actual
-        switch (gameState.screen) {
-            case 'registration':
-                renderRegistrationScreen();
-                break;
-            case 'intro':
-                renderIntroScreen();
-                break;
-            case 'project-assignment':
-                renderProjectAssignmentScreen();
-                break;
-            case 'phase1':
-                renderPhase1Screen();
-                break;
-            case 'phase2':
-                renderPhase2Screen();
-                break;
-            case 'phase3':
-                renderPhase3Screen();
-                break;
-            case 'report':
-                renderReportScreen();
-                break;
-            default:
-                renderRegistrationScreen();
+    console.log('🎮 DOMContentLoaded activado');
+    
+    try {
+        console.log('Verificando gameState...', gameState);
+        
+        // Inicializar HUD si la función existe
+        if (typeof initializeHUD === 'function') {
+            console.log('Inicializando HUD...');
+            initializeHUD();
+        }
+        
+        console.log('Intentando cargar estado anterior...');
+        
+        // Intentar cargar estado anterior
+        if (!gameState.load()) {
+            console.log('Sin estado guardado, mostrando registro');
+            renderRegistrationScreen();
+        } else {
+            console.log('Estado guardado encontrado, pantalla:', gameState.screen);
+            // Si hay estado guardado, ir a pantalla actual
+            switch (gameState.screen) {
+                case 'registration':
+                    renderRegistrationScreen();
+                    break;
+                case 'intro':
+                    renderIntroScreen();
+                    break;
+                case 'project-assignment':
+                    renderProjectAssignmentScreen();
+                    break;
+                case 'phase1':
+                    renderPhase1DragDrop();
+                    break;
+                case 'phase2':
+                    renderPhase2EnvironmentalCards();
+                    break;
+                case 'phase3':
+                    renderPhase3Crisis();
+                    break;
+                case 'report':
+                    renderFinalReportWithHeadlines();
+                    break;
+                default:
+                    console.log('Pantalla desconocida, mostrando registro');
+                    renderRegistrationScreen();
+            }
+        }
+    } catch (error) {
+        console.error('❌ Error en inicialización:', error);
+        // Mostrar error en la pantalla
+        const appDiv = document.getElementById('app');
+        if (appDiv) {
+            appDiv.innerHTML = `
+                <div style="padding: 2rem; color: red; background: #fff; margin: 2rem; border-radius: 8px;">
+                    <h2>❌ Error de Inicialización</h2>
+                    <p>${error.message}</p>
+                    <pre style="background: #f0f0f0; padding: 1rem; overflow-x: auto; font-size: 0.85rem;">
+${error.stack}
+                    </pre>
+                    <button onclick="location.reload()" style="padding: 0.5rem 1rem; margin-top: 1rem; cursor: pointer;">
+                        Recargar
+                    </button>
+                </div>
+            `;
         }
     }
 });
 
 // PANTALLA 0 - REGISTRO DEL GRUPO
+const GROUP_ROSTERS = {
+    1: [
+        { name: 'Adames Tobon, Arcenio', role: 'Director General' },
+        { name: 'Franco Rincon, Daniel Felipe', role: 'Director Legal' },
+        { name: 'García Torres, Jorge Iván', role: 'Director Ambiental' }
+    ],
+    2: [
+        { name: 'Benitez Molina, Alejandro', role: 'Director General' },
+        { name: 'Garcia Hincapie, Juan Sebastian', role: 'Director Legal' },
+        { name: 'Serna Cardona, Jhonier', role: 'Director Ambiental' }
+    ],
+    3: [
+        { name: 'Cano Buitrago, Paula Andrea', role: 'Director General' }
+    ],
+    5: [
+        { name: 'Castillo Galeano, Nicolas', role: 'Director General' },
+        { name: 'Silva Guarnizo, Santiago', role: 'Director Legal' },
+        { name: 'Montanchez Botina, Juan Felipe', role: 'Director Ambiental' }
+    ],
+    6: [
+        { name: 'Martínez Henao, Andrés Felipe', role: 'Director General' },
+        { name: 'Usma Londoño, Liceth Juanita', role: 'Director Legal' },
+        { name: 'Buitrago Alzate, Vanesa', role: 'Director Ambiental' }
+    ]
+};
+
+function getGroupRoster(groupNumber) {
+    return GROUP_ROSTERS[groupNumber] || [];
+}
+
 function renderRegistrationScreen() {
+    console.log('📋 Renderizando Pantalla de Registro');
     const app = document.getElementById('app');
+    if (!app) {
+        console.error('❌ Elemento #app no encontrado');
+        return;
+    }
     gameState.screen = 'registration';
+    gameState.setHUDVisibility(false);
 
     app.innerHTML = `
-        <div class="screen" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); justify-content: center;">
-            <div class="container-sm" style="max-width: 600px;">
+        <div class="screen" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); justify-content: center; padding: 2rem; min-height: calc(100vh - 120px);">
+            <div style="max-width: 720px; width: 100%;">
                 <div style="text-align: center; color: white; margin-bottom: 3rem;">
                     <h1 style="font-size: 3rem; margin-bottom: 1rem;">🌱 ECO-LEX</h1>
                     <p style="font-size: 1.25rem; opacity: 0.9;">Juego Educativo de Gestión de Proyectos en Colombia</p>
                 </div>
 
                 <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
-                    <h2 style="text-align: center; margin-bottom: 2rem;">📋 Registro del Grupo</h2>
+                    <h2 style="text-align: center; margin-bottom: 2rem; color: #333;">📋 Registro del Grupo</h2>
 
                     <form id="registration-form">
-                        <!-- Número de Grupo -->
-                        <div class="form-group">
-                            <label for="group-number">Número de Grupo (1-6)</label>
-                            <select id="group-number" name="groupNumber" required>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="group-number" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">Número de Grupo</label>
+                            <select id="group-number" name="groupNumber" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
                                 <option value="">-- Seleccione su grupo --</option>
-                                <option value="1">Grupo 1</option>
-                                <option value="2">Grupo 2</option>
-                                <option value="3">Grupo 3</option>
-                                <option value="5">Grupo 5</option>
-                                <option value="6">Grupo 6</option>
+                                <option value="1">Grupo 1 - Litio-Explor</option>
+                                <option value="2">Grupo 2 - Amazon-Gate</option>
+                                <option value="3">Grupo 3 - Hidro-Vida</option>
+                                <option value="5">Grupo 5 - Sky-City</option>
+                                <option value="6">Grupo 6 - Agro-Química</option>
                             </select>
                         </div>
 
-                        <!-- Número de Integrantes -->
-                        <div class="form-group">
-                            <label for="member-count">Número de Integrantes (1-3)</label>
-                            <select id="member-count" name="memberCount" required>
-                                <option value="">-- Seleccione cantidad --</option>
-                                <option value="1">1 Integrante</option>
-                                <option value="2">2 Integrantes</option>
-                                <option value="3">3 Integrantes</option>
-                            </select>
-                        </div>
+                        <div id="members-container" style="margin-top: 1.5rem;"></div>
 
-                        <!-- Contenedor de integrantes -->
-                        <div id="members-container" style="margin-top: 2rem;"></div>
-
-                        <!-- Botones -->
                         <div id="form-buttons" style="display: none; margin-top: 2rem;">
-                            <button type="submit" class="btn btn-primary btn-block btn-lg">Iniciar Juego</button>
+                            <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">
+                                ▶️ Confirmar Grupo e Iniciar Juego
+                            </button>
                         </div>
                     </form>
 
-                    <div id="info-message" style="margin-top: 2rem; padding: 1rem; background: #f0f7ff; border-radius: 8px; border-left: 4px solid #0066cc;">
-                        <strong>ℹ️ Asignación de Roles:</strong>
+                    <div id="info-message" style="margin-top: 2rem; padding: 1rem; background: #f0f7ff; border-radius: 8px; border-left: 4px solid #0066cc; color: #333;">
+                        <strong>ℹ️ Dinámica del registro:</strong>
                         <ul style="margin-left: 1rem; margin-top: 0.5rem; font-size: 0.9rem;">
-                            <li><strong>1 integrante:</strong> Rol único "Director General"</li>
-                            <li><strong>2 integrantes:</strong> "Director Legal" y "Director Ambiental"</li>
-                            <li><strong>3 integrantes:</strong> + "Gestor de Crisis"</li>
+                            <li>Solo selecciona tu grupo.</li>
+                            <li>El sistema mostrará automáticamente integrantes y roles.</li>
+                            <li>El proyecto se asigna de acuerdo al grupo registrado.</li>
                         </ul>
                     </div>
                 </div>
@@ -96,28 +158,29 @@ function renderRegistrationScreen() {
         </div>
     `;
 
-    const memberCountSelect = document.getElementById('member-count');
+    const groupSelect = document.getElementById('group-number');
     const membersContainer = document.getElementById('members-container');
     const formButtons = document.getElementById('form-buttons');
 
-    memberCountSelect.addEventListener('change', (e) => {
-        const count = parseInt(e.target.value);
+    groupSelect.addEventListener('change', (e) => {
+        const groupNumber = parseInt(e.target.value);
+        const roster = getGroupRoster(groupNumber);
         membersContainer.innerHTML = '';
 
-        if (count > 0) {
-            for (let i = 1; i <= count; i++) {
-                const roles = ['Director General', 'Director Legal', 'Director Ambiental', 'Gestor de Crisis'];
-                const role = count === 1 ? roles[0] : count === 2 ? (i === 1 ? roles[1] : roles[2]) : roles[i - 1];
-
-                const div = document.createElement('div');
-                div.className = 'form-group';
-                div.innerHTML = `
-                    <label for="member-${i}-name">Nombre Completo - Integrante ${i} (${role})</label>
-                    <input type="text" id="member-${i}-name" name="member-${i}-name" placeholder="Ej: Juan Pérez García" required>
-                `;
-                membersContainer.appendChild(div);
-            }
-
+        if (roster.length > 0) {
+            membersContainer.innerHTML = `
+                <div style="background: #f5f7fa; border-left: 4px solid #667eea; padding: 1rem; border-radius: 8px;">
+                    <strong>👥 Integrantes y roles del grupo seleccionado:</strong>
+                    <div style="margin-top: 0.75rem; display: grid; gap: 0.75rem;">
+                        ${roster.map(member => `
+                            <div style="padding: 0.75rem 1rem; background: white; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                                <div style="font-weight: bold; color: #333;">${member.name}</div>
+                                <div style="color: #666; font-size: 0.95rem;">Rol: ${member.role}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
             formButtons.style.display = 'block';
         } else {
             formButtons.style.display = 'none';
@@ -135,16 +198,11 @@ function renderRegistrationScreen() {
 
 function submitRegistration() {
     const groupNumber = parseInt(document.getElementById('group-number').value);
-    const memberCount = parseInt(document.getElementById('member-count').value);
+    const teamMembers = getGroupRoster(groupNumber).map(member => ({ ...member }));
 
-    const teamMembers = [];
-    const roles = ['Director General', 'Director Legal', 'Director Ambiental', 'Gestor de Crisis'];
-
-    for (let i = 1; i <= memberCount; i++) {
-        const name = document.getElementById(`member-${i}-name`).value;
-        const role = memberCount === 1 ? roles[0] : memberCount === 2 ? (i === 1 ? roles[1] : roles[2]) : roles[i - 1];
-
-        teamMembers.push({ name, role });
+    if (!groupNumber || teamMembers.length === 0) {
+        alert('Por favor selecciona un grupo válido antes de iniciar.');
+        return;
     }
 
     gameState.setGroupInfo(groupNumber, teamMembers);
@@ -158,6 +216,7 @@ function submitRegistration() {
 function renderIntroScreen() {
     const app = document.getElementById('app');
     gameState.screen = 'intro';
+    gameState.setHUDVisibility(false);
 
     app.innerHTML = `
         <div class="screen">
@@ -259,6 +318,7 @@ function renderProjectAssignmentScreen() {
 
     const project = getProjectByGroup(gameState.groupNumber);
     gameState.setProject(project);
+    gameState.updateHUD();
 
     const difficultyEmoji = project.difficulty === 'critical' ? '🔴' : project.difficulty === 'high' ? '🟠' : '🟡';
 
@@ -321,7 +381,7 @@ function startPhase1() {
     gameState.screen = 'phase1';
     gameState.startTime = new Date();
     gameState.save();
-    renderPhase1Screen();
+    renderPhase1DragDrop();
 }
 
 // Exportar funciones necesarias

@@ -160,10 +160,15 @@ function renderReportScreen() {
                                             const allDecisions = ENVIRONMENTAL_DECISIONS.decisions;
                                             const decision = allDecisions.find(d => d.id === dec.decisionId);
                                             const option = decision?.options.find(o => o.id === dec.option);
+                                            const impactText = Object.entries(dec.impact || {})
+                                                .map(([key, value]) => `${key}: ${value > 0 ? '+' : ''}${value}`)
+                                                .join(', ');
                                             return `
-                                                <li style="margin-bottom: 0.5rem;">
+                                                <li style="margin-bottom: 0.75rem;">
                                                     <strong>${decision?.title || 'Decisión ' + (idx + 1)}:</strong> 
-                                                    ${option?.title || 'Opción seleccionada'}
+                                                    ${dec.optionTitle || option?.title || 'Opción seleccionada'}
+                                                    <br>
+                                                    <small>Impacto: ${impactText || 'Sin impacto directo'}</small>
                                                 </li>
                                             `;
                                         }).join('')}
@@ -181,6 +186,16 @@ function renderReportScreen() {
                                 <li>Estrategia ejecutada: ${gameState.decisions.crisis[0]?.selectedOptionTitle || 'No registrada'}</li>
                                 <li>Justificación documentada: ${gameState.decisions.crisis[0]?.justification ? 'Sí' : 'No'}</li>
                             </ul>
+                            ${gameState.decisions.crisis[0]?.selectedOptionImpact ? `
+                                <div style="margin-top: 1rem; padding: 1rem; background: #f5f7fa; border-radius: 8px; border-left: 4px solid var(--color-crisis);">
+                                    <strong>📉 Variables de impacto:</strong>
+                                    <p style="margin-top: 0.5rem; color: var(--color-text); line-height: 1.6;">
+                                        ${Object.entries(gameState.decisions.crisis[0].selectedOptionImpact)
+                                            .map(([key, value]) => `${key}: ${value > 0 ? '+' : ''}${value}`)
+                                            .join(', ')}
+                                    </p>
+                                </div>
+                            ` : ''}
                             ${gameState.decisions.crisis[0]?.justification ? `
                                 <div style="margin-top: 1rem; padding: 1rem; background: #f5f7fa; border-radius: 8px; border-left: 4px solid var(--color-crisis);">
                                     <strong>📝 Justificación de la Estrategia:</strong>
