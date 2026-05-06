@@ -13,10 +13,10 @@ const PROJECTS = {
             'Alta oposición comunitaria'
         ],
         resources: {
-            water: 120,                 // extracción intensiva
-            land: 150,                  // Ha
-            budget: 180_000_000,        // $180 millones COP
-            community: 30               // baja aceptación inicial
+            water: 240,                 // extracción intensiva
+            land: 300,                  // Ha
+            budget: 360_000_000,        // $360 millones COP
+            community: 60               // baja aceptación inicial
         },
         difficulty: 'high',
         group: 1
@@ -34,10 +34,10 @@ const PROJECTS = {
             'Fragmentación del ecosistema'
         ],
         resources: {
-            water: 60,
-            land: 300,
-            budget: 250_000_000,        // $250 millones COP
-            community: 35
+            water: 120,
+            land: 600,
+            budget: 500_000_000,        // $500 millones COP
+            community: 70
         },
         difficulty: 'high',
         group: 2
@@ -55,10 +55,10 @@ const PROJECTS = {
             'Riesgo geotécnico'
         ],
         resources: {
-            water: 200,                 // alto uso del caudal
-            land: 250,
-            budget: 350_000_000,        // $350 millones COP
-            community: 25               // fuerte conflicto social
+            water: 400,                 // alto uso del caudal
+            land: 500,
+            budget: 700_000_000,        // $700 millones COP
+            community: 50               // fuerte conflicto social
         },
         difficulty: 'critical',
         group: 3
@@ -76,10 +76,10 @@ const PROJECTS = {
             'Turismo no sostenible'
         ],
         resources: {
-            water: 50,
-            land: 80,
-            budget: 280_000_000,        // $280 millones COP
-            community: 55
+            water: 100,
+            land: 160,
+            budget: 560_000_000,        // $560 millones COP
+            community: 110
         },
         difficulty: 'high',
         group: 5
@@ -97,10 +97,10 @@ const PROJECTS = {
             'Conflictos por uso del suelo'
         ],
         resources: {
-            water: 90,
-            land: 400,
-            budget: 120_000_000,        // $120 millones COP
-            community: 45
+            water: 180,
+            land: 800,
+            budget: 240_000_000,        // $240 millones COP
+            community: 90
         },
         difficulty: 'high',
         group: 6
