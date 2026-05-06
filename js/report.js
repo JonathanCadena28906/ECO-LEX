@@ -43,7 +43,13 @@ function renderReportScreen() {
                 <!-- Encabezado del informe -->
                 <div class="report-header">
                     <h1 class="report-title">INFORME FINAL ECO-LEX</h1>
-                    <p class="report-project-name">Proyecto: ${gameState.project.name}</p>
+                    <p class="report-project-name" style="margin-bottom: 0.5rem;">Proyecto: ${gameState.project.name}</p>
+                    <div style="background: #f5f7fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: left;">
+                        <h3 style="margin-bottom: 0.5rem; color: #2c3e50;">Grupo ${gameState.groupNumber}</h3>
+                        <p style="color: #34495e; font-weight: bold;">
+                            Integrantes: ${gameState.teamMembers && gameState.teamMembers.length > 0 ? gameState.teamMembers.map(m => m.name).join(', ') : 'Nombres no registrados'}
+                        </p>
+                    </div>
                     <div class="result-status ${statusClass}">
                         ${statusDisplay}
                     </div>
@@ -52,7 +58,7 @@ function renderReportScreen() {
                 <!-- Información del grupo -->
                 <div class="team-info">
                     <div style="margin-bottom: 1rem; font-weight: bold;">
-                        Grupo ${gameState.groupNumber} | Generado: ${new Date().toLocaleString('es-CO')}
+                        Grupo ${gameState.groupNumber} - ${gameState.project.name} | Generado: ${new Date().toLocaleString('es-CO')}
                     </div>
                     <div class="team-info-grid">
                         ${gameState.teamMembers.map(member => `
@@ -292,9 +298,10 @@ function generateRecommendations(totalScore, state) {
 
 function exportReportToPDF() {
     const element = document.querySelector('.report-container');
+    const memberNames = gameState.teamMembers && gameState.teamMembers.length > 0 ? gameState.teamMembers.map(m => m.name.split(' ')[0]).join('_') : 'Integrantes';
     const opt = {
         margin: 10,
-        filename: `ECO-LEX-Grupo${gameState.groupNumber}-Informe.pdf`,
+        filename: `ECO-LEX-Grupo${gameState.groupNumber}-${memberNames}-Informe.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }

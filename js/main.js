@@ -4,18 +4,18 @@ console.log('gameState disponible:', typeof gameState !== 'undefined');
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🎮 DOMContentLoaded activado');
-    
+
     try {
         console.log('Verificando gameState...', gameState);
-        
+
         // Inicializar HUD si la función existe
         if (typeof initializeHUD === 'function') {
             console.log('Inicializando HUD...');
             initializeHUD();
         }
-        
+
         console.log('Intentando cargar estado anterior...');
-        
+
         // Intentar cargar estado anterior
         if (!gameState.load()) {
             console.log('Sin estado guardado, mostrando registro');
@@ -72,34 +72,12 @@ ${error.stack}
 });
 
 // PANTALLA 0 - REGISTRO DEL GRUPO
-const GROUP_ROSTERS = {
-    1: [
-        { name: 'Adames Tobon, Arcenio', role: 'Director General' },
-        { name: 'Franco Rincon, Daniel Felipe', role: 'Director Legal' },
-        { name: 'García Torres, Jorge Iván', role: 'Director Ambiental' }
-    ],
-    2: [
-        { name: 'Benitez Molina, Alejandro', role: 'Director General' },
-        { name: 'Garcia Hincapie, Juan Sebastian', role: 'Director Legal' },
-        { name: 'Serna Cardona, Jhonier', role: 'Director Ambiental' }
-    ],
-    3: [
-        { name: 'Cano Buitrago, Paula Andrea', role: 'Director General' }
-    ],
-    5: [
-        { name: 'Castillo Galeano, Nicolas', role: 'Director General' },
-        { name: 'Silva Guarnizo, Santiago', role: 'Director Legal' },
-        { name: 'Montanchez Botina, Juan Felipe', role: 'Director Ambiental' }
-    ],
-    6: [
-        { name: 'Martínez Henao, Andrés Felipe', role: 'Director General' },
-        { name: 'Usma Londoño, Liceth Juanita', role: 'Director Legal' },
-        { name: 'Buitrago Alzate, Vanesa', role: 'Director Ambiental' }
-    ]
-};
-
 function getGroupRoster(groupNumber) {
-    return GROUP_ROSTERS[groupNumber] || [];
+    if (window.ENV && window.ENV.GROUP_ROSTERS) {
+        return window.ENV.GROUP_ROSTERS[groupNumber] || [];
+    }
+    console.warn("No se encontraron variables de entorno para los integrantes del grupo.");
+    return [];
 }
 
 function renderRegistrationScreen() {
@@ -128,11 +106,11 @@ function renderRegistrationScreen() {
                             <label for="group-number" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">Número de Grupo</label>
                             <select id="group-number" name="groupNumber" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
                                 <option value="">-- Seleccione su grupo --</option>
-                                <option value="1">Grupo 1 - Litio-Explor</option>
-                                <option value="2">Grupo 2 - Amazon-Gate</option>
-                                <option value="3">Grupo 3 - Hidro-Vida</option>
-                                <option value="5">Grupo 5 - Sky-City</option>
-                                <option value="6">Grupo 6 - Agro-Química</option>
+                                <option value="1">Grupo 1</option>
+                                <option value="2">Grupo 2</option>
+                                <option value="3">Grupo 3</option>
+                                <option value="5">Grupo 5</option>
+                                <option value="6">Grupo 6</option>
                             </select>
                         </div>
 
@@ -289,7 +267,7 @@ function renderIntroScreen() {
                     </div>
 
                     <div style="margin-top: 2rem; text-align: center;">
-                        <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">
+                        <p style="font-size: 1.1rem; color: #e0e0e0; margin-bottom: 2rem;">
                             Ahora está listo para comenzar. Como equipo, navegará las tensiones entre 
                             rigor legal y flexibilidad ambiental, mientras enfrenta eventos aleatorios inesperados.
                         </p>
@@ -329,7 +307,7 @@ function renderProjectAssignmentScreen() {
                     <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">🎯 Tu Proyecto Asignado</h1>
                 </div>
 
-                <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+                <div style="background: white; color: #333; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
                     <div style="text-align: center; margin-bottom: 1rem;">
                         <div style="font-size: 3rem; margin-bottom: 1rem;">🏗️</div>
                         <h2 style="margin-bottom: 0.5rem;">${project.name}</h2>

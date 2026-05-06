@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,14 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/report.css">
 </head>
+
 <body>
     <!-- HUD SUPERIOR - Tablero de Control -->
     <div id="hud-top" class="hidden">
         <div class="hud-project-meta">
             <div class="hud-project-name" id="hud-project-name">Proyecto no asignado</div>
-            <div class="hud-project-context" id="hud-project-context">Asigne un proyecto para visualizar indicadores</div>
+            <div class="hud-project-context" id="hud-project-context">Asigne un proyecto para visualizar indicadores
+            </div>
         </div>
         <div class="hud-group">
             <div class="hud-indicator water">
@@ -40,9 +43,7 @@
         <div class="hud-timer" id="hud-timer">
             ⏱️ 60 DÍAS
         </div>
-        <div class="hud-discounts" id="hud-discounts" style="font-size:0.85rem; color: #f1c40f; margin-left:1rem;">
-            <!-- Descuentos aplicados por decisiones -->
-        </div>
+
     </div>
 
     <div id="app"></div>
@@ -69,6 +70,9 @@
         window.DEBUG = true;
     </script>
 
+    <!-- Variables de Entorno -->
+    <script src="js/env.js"></script>
+
     <!-- Scripts - Datos -->
     <script src="js/data/projects.js"></script>
     <script src="js/data/events.js"></script>
@@ -78,6 +82,7 @@
     <!-- Scripts - Core -->
     <script src="js/state.js"></script>
     <script src="js/events-engine.js"></script>
+    <script src="js/resource-validator.js"></script>
 
     <!-- Scripts - Dashboard Engine (NEW) -->
     <script src="js/dashboard-engine.js"></script>
@@ -89,7 +94,7 @@
 
     <!-- Scripts - Utilidades -->
     <script src="js/report.js"></script>
-    
+
     <!-- Script Principal - DEBE SER ÚLTIMO -->
     <script src="js/main.js"></script>
 
@@ -103,7 +108,7 @@
             console.log('gameState:', typeof gameState);
             console.log('initializeHUD:', typeof initializeHUD);
             console.log('renderRegistrationScreen:', typeof renderRegistrationScreen);
-            
+
             // Diagnosticar elemento #app
             const app = document.getElementById('app');
             console.log('#app elemento:', app);
@@ -112,11 +117,12 @@
             console.log('#app display:', window.getComputedStyle(app).display);
             console.log('#app background:', window.getComputedStyle(app).backgroundColor);
         });
-        
+
         // Agregar log global de errores
         window.addEventListener('error', (event) => {
             console.error('❌ Error global:', event.error);
         });
     </script>
 </body>
+
 </html>

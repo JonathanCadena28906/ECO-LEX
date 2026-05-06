@@ -36,6 +36,8 @@ build/
 .env
 .env.local
 .cache/
+js/env.js
+
 
 # Testing
 coverage/
