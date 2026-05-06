@@ -41,13 +41,13 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Gestionar inmediatamente',
                 description: 'Costo adicional pero continúa el proceso',
-                consequence: { score: 5, time: 60, resources: { budget: -15_000_000 } }
+                consequence: { score: 5, time: 60, resources: { budget: -5_000_000 } }
             },
             {
                 id: 'opt_2',
                 title: 'Delegar a asesor externo',
                 description: 'Demora pero reduce riesgo',
-                consequence: { score: 0, time: 120, resources: { budget: -35_000_000 } }
+                consequence: { score: 0, time: 120, resources: { budget: -25_000_000 } }
             }
         ],
         severity: 'low',
@@ -94,7 +94,7 @@ const EVENTS_BANK = [
                 id: 'opt_2',
                 title: 'Ofrecer compensación inicial',
                 description: 'Ayuda pero no resuelve completamente',
-                consequence: { score: 5, time: 120, resources: { budget: -60_000_000, community: 20 } }
+                consequence: { score: 5, time: 120, resources: { budget: -30_000_000, community: 20 } }
             },
             {
                 id: 'opt_3',
@@ -117,13 +117,13 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Presentar plan de compensación',
                 description: 'Inversión en comunidad local',
-                consequence: { score: 15, time: 90, resources: { budget: -80_000_000, community: 40 } }
+                consequence: { score: 15, time: 90, resources: { budget: -50_000_000, community: 40 } }
             },
             {
                 id: 'opt_2',
                 title: 'Negociar acceso temporal',
                 description: 'Solución rápida pero frágil',
-                consequence: { score: -5, time: 30, resources: { budget: -15_000_000 } }
+                consequence: { score: -5, time: 30, resources: { budget: -5_000_000 } }
             }
         ],
         severity: 'high',
@@ -140,7 +140,7 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Aceptar responsabilidad parcial',
                 description: 'Muestra disposición a dialogar',
-                consequence: { score: 10, time: 0, resources: { budget: -100_000_000 } }
+                consequence: { score: 10, time: 0, resources: { budget: -70_000_000 } }
             },
             {
                 id: 'opt_2',
@@ -164,13 +164,13 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Encargar estudio ambiental',
                 description: 'Cumplimiento riguroso',
-                consequence: { score: 20, time: 120, resources: { budget: -90_000_000, water: -8 } }
+                consequence: { score: 20, time: 120, resources: { budget: -60_000_000, water: -8 } }
             },
             {
                 id: 'opt_2',
                 title: 'Argumentar fuente externa',
                 description: 'Riesgos de rechazo regulatorio',
-                consequence: { score: -10, time: 60, resources: { budget: -25_000_000 } }
+                consequence: { score: -10, time: 60, resources: { budget: -15_000_000 } }
             }
         ],
         severity: 'high',
@@ -193,7 +193,7 @@ const EVENTS_BANK = [
                 id: 'opt_2',
                 title: 'Implementar sistema de reciclaje',
                 description: 'Inversión adicional',
-                consequence: { score: 15, time: 90, resources: { water: -10, budget: -60_000_000 } }
+                consequence: { score: 15, time: 90, resources: { water: -10, budget: -30_000_000 } }
             }
         ],
         severity: 'medium',
@@ -210,7 +210,7 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Crear corredor ecológico',
                 description: 'Solución integrada',
-                consequence: { score: 25, time: 150, resources: { budget: -80_000_000, land: -15 } }
+                consequence: { score: 25, time: 150, resources: { budget: -50_000_000, land: -15 } }
             },
             {
                 id: 'opt_2',
@@ -234,7 +234,7 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Adaptarse a nuevos requisitos',
                 description: 'Cumplimiento con la nueva administración',
-                consequence: { score: 10, time: 120, resources: { budget: -50_000_000 } }
+                consequence: { score: 10, time: 120, resources: { budget: -40_000_000 } }
             },
             {
                 id: 'opt_2',
@@ -257,7 +257,7 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Preparar documentación completa',
                 description: 'Garantiza transparencia',
-                consequence: { score: 20, time: 60, resources: { budget: -30_000_000 } }
+                consequence: { score: 20, time: 60, resources: { budget: -20_000_000 } }
             },
             {
                 id: 'opt_2',
@@ -281,13 +281,13 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Reconstruir y mejorar',
                 description: 'Mayor inversión pero mejor sostenibilidad',
-                consequence: { score: 15, time: 180, resources: { budget: -150_000_000, land: -10 } }
+                consequence: { score: 15, time: 180, resources: { budget: -120_000_000, land: -10 } }
             },
             {
                 id: 'opt_2',
                 title: 'Reconstruir idénticamente',
                 description: 'Más rápido pero sin mejoras',
-                consequence: { score: 0, time: 120, resources: { budget: -80_000_000 } }
+                consequence: { score: 0, time: 120, resources: { budget: -50_000_000 } }
             }
         ],
         severity: 'critical',
@@ -304,7 +304,7 @@ const EVENTS_BANK = [
                 id: 'opt_1',
                 title: 'Respuesta pública inmediata',
                 description: 'Rectificar y comprobar acceso',
-                consequence: { score: 10, time: 90, resources: { budget: -80_000_000 } }
+                consequence: { score: 10, time: 90, resources: { budget: -50_000_000 } }
             },
             {
                 id: 'opt_2',
@@ -345,19 +345,19 @@ const EVENT_LIBRARY = {
                     id: 'opt_containment',
                     title: 'Contención inmediata y compensación',
                     description: 'Movilizar equipo de emergencia y ofrecer ayuda directa',
-                    impact: { community: -30, water: -20, budget: -70_000_000 }
+                    impact: { community: -30, water: -20, budget: -40_000_000 }
                 },
                 {
                     id: 'opt_denial',
                     title: 'Argumentar causa externa',
                     description: 'Culpar a factores naturales o de terceros',
-                    impact: { community: -60, impact: 20, budget: -20_000_000 }
+                    impact: { community: -60, impact: 20, budget: -10_000_000 }
                 },
                 {
                     id: 'opt_transparency',
                     title: 'Transparencia total y remedación',
                     description: 'Aceptar responsabilidad, lanzar plan de descontaminación',
-                    impact: { community: 15, water: -30, budget: -120_000_000, impact: -15 }
+                    impact: { community: 15, water: -30, budget: -90_000_000, impact: -15 }
                 }
             ]
         },
@@ -370,7 +370,7 @@ const EVENT_LIBRARY = {
                     id: 'opt_collaboration',
                     title: 'Colaborar con autoridades',
                     description: 'Trabajar con Fiscalía para investigación',
-                    impact: { community: 20, land: 10, budget: -40_000_000 }
+                    impact: { community: 20, land: 10, budget: -30_000_000 }
                 },
                 {
                     id: 'opt_distance',
@@ -389,13 +389,13 @@ const EVENT_LIBRARY = {
                     id: 'opt_negotiation',
                     title: 'Mesa de negociación extendida',
                     description: 'Diálogo profundo y rediseño del plan',
-                    impact: { community: 30, budget: -140_000_000, impact: -10 }
+                    impact: { community: 30, budget: -110_000_000, impact: -10 }
                 },
                 {
                     id: 'opt_force',
                     title: 'Proceder con fuerza legal',
                     description: 'Ejecutar órdenes judiciales',
-                    impact: { community: -80, impact: 40, budget: -60_000_000 }
+                    impact: { community: -80, impact: 40, budget: -30_000_000 }
                 }
             ]
         },
